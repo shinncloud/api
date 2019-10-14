@@ -4,6 +4,7 @@ import platform
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+
 @app.route('/')
 def echo():
 
@@ -29,8 +30,10 @@ def echo():
 
     return jsonify(data)
 
+
 def main():
     app.run(port=8080, host='0.0.0.0')
+
 
 if __name__ == "__main__":
     app.run()

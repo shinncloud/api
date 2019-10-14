@@ -1,4 +1,5 @@
 FROM python:3.7.3
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 RUN pip install pip-tools
 COPY . /usr/src/app
 RUN pip-sync /usr/src/app/requirements.txt

@@ -1,8 +1,16 @@
 steps:
-  - command:
+  - label: ":docker: Build Image"
+    plugins:
+      - docker-compose#v3.0.3:
+          build: app
+          image-name: ${BUILDKITE_PIPELINE_SLUG}-build-${BUILDKITE_BUILD_NUMBER}
+          image-repository: gcr.io/shinncloud/echoer
+  - label: ":pytest: Run Tests"
+    command:
       - pip install -r requirements.txt -e .[dev]
       - pytest
     plugins:
-      - docker#v3.0.3:
-          image: python:3.7.3
-          propagate-environment: true
+      - docker-compose#v3.0.3:
+          run: app
+          image-name: ${BUILDKITE_PIPELINE_SLUG}-build-${BUILDKITE_BUILD_NUMBER}
+          image-repository: gcr.io/shinncloud/echoer
