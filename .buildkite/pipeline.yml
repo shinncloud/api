@@ -7,8 +7,8 @@ steps:
           image-repository: gcr.io/shinncloud/echoer
   - label: ":pytest: Run Tests"
     command:
-      - pip install -r requirements.txt -e .[dev]
-      - pytest
+      - pip install -e .[dev]
+      - pytest --codestyle
     plugins:
       - docker-compose#v3.0.3:
           run: app
