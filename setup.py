@@ -6,6 +6,11 @@ setup(
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     install_requires=['Flask', 'gunicorn'],
     extras_require={
-        'dev': ['pytest', 'pytest-pycodestyle', 'pip-tools']
+        'dev': ['pytest',
+                'pytest-pycodestyle',
+                'fakeredis',
+                'blinker',
+                'pip-tools'
+                ]
     }
 )

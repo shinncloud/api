@@ -1,12 +1,33 @@
-from flask import Flask, request, jsonify
 import platform
+
+from flask import Flask, request, jsonify, g
+from redis import Redis
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
+def redis_db():
+    db = Redis(host='redis', port=6379, db=0)
+    return db
+
+
+@app.before_request
+def connect_db():
+    if 'db' not in g:
+        g.db = redis_db()
+
+
+@app.after_request
+def increment_counter(response):
+    g.db.incr('count')
+
+    return response
+
+
 @app.route('/')
 def echo():
+    app.logger.info('logging info')
 
     status_code = request.args.get('status') or 200
     status_code = int(status_code)
@@ -27,6 +48,8 @@ def echo():
         'platform': platform.platform(),
         'node': platform.node(),
     }
+
+    data['counter'] = int(g.db.get('count'))
 
     return jsonify(data)
 
