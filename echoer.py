@@ -1,4 +1,5 @@
 import platform
+import datetime
 
 from flask import Flask, request, jsonify, g
 from redis import Redis
@@ -41,6 +42,7 @@ def echo():
         'url_root': request.url_root,
         'method': request.method,
         'data': request.data.decode(encoding='UTF-8'),
+        'date': datetime.datetime.now(),
         'host': request.host,
         'args': request.args,
         'form': request.form,
@@ -50,8 +52,10 @@ def echo():
         'node': platform.node(),
     }
 
-    data['counter'] = int(g.db.get('count') or 0)
+    if 'headers' in request.args:
+        data['headers'] = dict(request.headers)
 
+    data['counter'] = int(g.db.get('count') or 0)
     return jsonify(data)
 
 
