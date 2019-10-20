@@ -26,6 +26,7 @@ def increment_counter(response):
 
 
 @app.route('/')
+@app.route('/health', methods=['GET', 'POST', 'PUT'])
 def echo():
     app.logger.info('logging info')
 
@@ -49,7 +50,7 @@ def echo():
         'node': platform.node(),
     }
 
-    data['counter'] = int(g.db.get('count'))
+    data['counter'] = int(g.db.get('count') or 0)
 
     return jsonify(data)
 

@@ -21,21 +21,18 @@ def redis_test(app):
         yield
 
 
-def test_response_200(client):
+def test_health_response_200(client):
     with redis_test(app):
         with app.test_request_context('/'):
-            g.db.incr('count')
-
-            rv = client.get('/')
+            rv = client.get('/health')
             assert rv.status_code == 200
 
 
 def test_response_counter_increments(client):
     with redis_test(app):
         with app.test_request_context('/'):
-            g.db.incr('count')
+            rv = client.get('/health')
+            assert json.loads(rv.data)['counter'] == 0
 
-            rv = client.get('/')
+            rv = client.get('/health')
             assert json.loads(rv.data)['counter'] == 1
-            rv = client.get('/')
-            assert json.loads(rv.data)['counter'] == 2
