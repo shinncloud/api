@@ -4,11 +4,19 @@
 #
 #    pip-compile
 #
-click==7.0                # via flask
+click==7.0
+    # via flask
 flask==1.0.3
+    # via -r requirements.in
 gunicorn==19.9.0
-itsdangerous==1.1.0       # via flask
-jinja2==2.10.1            # via flask
-markupsafe==1.1.1         # via jinja2
+    # via -r requirements.in
+itsdangerous==1.1.0
+    # via flask
+jinja2==2.10.1
+    # via flask
+markupsafe==1.1.1
+    # via jinja2
 redis==3.3.11
-werkzeug==0.15.4          # via flask
+    # via -r requirements.in
+werkzeug==0.15.5
+    # via flask
